@@ -1,0 +1,12 @@
+#Архивирование базы данных
+
+echo "Выгружаем дамп базы данных"
+#mysqldump -paaa -u sasa --all_databases --lock-tables --default_character_set=koi8u > iceB_baza
+mysqldump -paaa -u sasa --all_databases --lock-tables  > iceB_baza
+echo "Создаём архив"
+bzip2 iceB_baza
+#files="iceB_baza"
+#
+#tar cfj iceB_baza.bz2.tar $files
+#rm -f iceB_baza
+echo "Работа закончена"

@@ -1,0 +1,23 @@
+#
+########################################################################
+#
+# Format of Lines:
+#
+#   source/type destination/type cost filter
+#
+# General Notes:
+#
+#   The "cost" field is used to find the least costly filters to run
+#   when converting a job file to a printable format.
+#
+#   All filters *must* accept the standard command-line arguments
+#   (job-id, user, title, copies, options, [filename or stdin]) to
+#   work with CUPS.
+#
+
+########################################################################
+#
+# PostScript filters
+#
+
+application/iceb	application/postscript	33	iceb_ps

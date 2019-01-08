@@ -1,0 +1,17 @@
+
+./util/koi8u_utf8 ./libbuh/*.c;
+./util/koi8u_utf8 ./libbuh/*.h;
+./util/koi8u_utf8 ./libsql/*.c;
+./util/koi8u_utf8 ./libsql/*.h;
+./util/koi8u_utf8 ./libscr/*.c;
+./util/koi8u_utf8 ./libscr/*.h;
+./util/koi8u_utf8 ./libutil/*.c;
+./util/koi8u_utf8 ./libutil/*.h;
+./util/koi8u_utf8 ./util/*.c;
+./util/koi8u_utf8 ./util/*.h;
+./util/koi8u_utf8 ./buhg/*.c;
+./util/koi8u_utf8 ./buhg/*.h;
+./util/koi8u_utf8 ./buhg/bx/*.alx;
+./util/koi8u_utf8 ./buhg/doc/*.txt;
+./util/koi8u_utf8 ./CHANGES;
+./util/koi8u_utf8 ./INSTALL;

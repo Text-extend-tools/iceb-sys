@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Bookkeeping suite of programs iceB
+Name[en_CA]=Ukrainian bookkeeping suite of programs iceB
+Name[en_GB]=Ukrainian bookkeeping suite of programs iceB
+Name[uk]=Адміністрування системи iceB
+Name[ru]=Администрирование системы iceB
+GenericName=Ukrainian bookkeeping suite of programs iceB
+GenericName[ru]=Администрирование комплекса бухгалтерских программ iceB
+GenericName[uk]=Адміністрування комплексу бухгалтерських програм iceB
+Comment=Ukrainian bookkeeping suite of programs iceB
+Comment[uk]=Створення баз даних, встановлення прав доступу для роботи з комплексом бухгалтерських програм iceB (терминальный интерфейс)
+Comment[ru]=Создание баз данных, установка прав доступа для рабоы с комплексом бухгалтерских программ iceB (терминальный интерфейс)
+Icon=iceb.png
+Exec=iceb_admint
+Categories=Office;Database;
+Terminal=true

@@ -1,0 +1,86 @@
+#22.03.2017
+rm ./libbuh_g/iceb_t_nn7*.cpp
+rm ./buhg/alx/nn7_*.alx
+#10.01.2018
+rm ./libbuh/iceb_t_ko1.cpp
+rm ./libbuh/iceb_t_ko2.cpp
+#12.01.2018
+rm ./buhg/alx/zarspv.alx
+rm ./buhg/alx/zarspv1.alx
+rm ./buhg/alx/zarspv2.alx
+#24.01.2018
+rm ./additionally/other/dirskp26.cpp 
+rm ./additionally/other/dirskp26n.cpp 
+rm ./additionally/other/dirskp26ns.cpp 
+rm ./additionally/other/dirtabskp.cpp
+rm ./additionally/other/dirzarpskp.cpp
+rm ./additionally/other/dolhn.cpp 
+rm ./additionally/other/dolhn1.cpp 
+rm ./additionally/other/provblokzarp.cpp
+rm ./additionally/other/provzzag.cpp
+rm ./additionally/other/redkal.cpp
+rm ./additionally/other/skp26.cpp
+rm ./additionally/other/sozskp26.cpp
+rm ./additionally/other/vvodztskp.cpp
+rm ./additionally/other/zapzarn1.cpp
+rm ./additionally/other/zapzarpv.cpp
+rm ./additionally/other/zar_pr_show.cpp
+rm ./additionally/other/zarpodpr.cpp
+rm ./additionally/other/zarudnu.cpp 
+#29.03.2018
+rm ./buhg/alx/rnn_nimp1.alx
+#07.12.2018
+rm ./libbuh/iceb_t_nn7_end.cpp
+rm ./libbuh/iceb_t_nn7_hap.cpp
+rm ./libbuh/iceb_t_nn7_start.cpp
+rm ./libbuh/iceb_t_nn7_start_v.cpp
+rm ./libbuh/iceb_t_nn7_str.cpp
+rm ./libbuh/iceb_t_nn8_end.cpp
+rm ./libbuh/iceb_t_nn8_hap.cpp
+rm ./libbuh/iceb_t_nn8_start.cpp
+rm ./libbuh/iceb_t_nn8_start_v.cpp
+rm ./libbuh/iceb_t_nn8_start_s.cpp
+rm ./libbuh/iceb_t_nn8_str.cpp
+rm ./libbuh/iceb_t_nn8_end_xml.cpp
+rm ./libbuh/iceb_t_nn8_zag_xml.cpp
+rm ./libbuh/iceb_t_nn8_str_xml.cpp
+rm ./libbuh/iceb_t_nn9_end_xml.cpp
+rm ./libbuh/iceb_t_nn9_zag_xml.cpp
+rm ./libbuh/iceb_t_nn9_str_xml.cpp
+rm ./buhg/alx/nn8_end.alx
+rm ./buhg/alx/nn8_hap.alx
+rm ./buhg/alx/nn8_start.alx
+
+files="./buhg/*.cpp ./buhg/*.h ./buhg/CMakeLists.txt \
+./buhg/alx/*.alx \
+./buhg/doc/*.txt ./buhg/doc/CONTENTS \
+./libscr/*.cpp ./libscr/*.h ./libscr/CMakeLists.txt \
+./additionally/without-curses/*.cpp ./additionally/without-curses/*.h ./additionally/without-curses/CMakeLists.txt \
+./additionally/other/*.cpp ./additionally/other/*.h ./additionally/other/CMakeLists.txt \
+./additionally/other/alx/*.alx \
+./libutil/*.cpp ./libutil/*.h ./libutil/CMakeLists.txt \
+./libbuh/*.cpp ./libbuh/*.h ./libbuh/CMakeLists.txt \
+./libsql/*.cpp ./libsql/*.h ./libsql/CMakeLists.txt \
+./util/*.cpp ./util/CMakeLists.txt \
+./util/*.h \
+./util/*.txt \
+./util/iceb_ps_fonts.ps \
+./util/test_print.ps \
+./util/cups/* \
+./util/terminfo/* \
+./util/scripts/* \
+./util/scripts/.bash_profile \
+./locale/*.po \
+./locale/uk_ru \
+./locale/uk_uk \
+CMakeLists.txt arhiviceb extract \
+iceb.h CHANGES COPYING READMI.TXT \
+./desktop"
+
+echo "Archiving..."
+
+tar cvfj iceB.tar.bz2 $files
+#tar cvfJ iceB.tar.xz $files
+
+echo "End archiving..."
+

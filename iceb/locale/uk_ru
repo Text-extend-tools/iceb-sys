@@ -1,0 +1,4 @@
+
+
+msgfmt -vo iceBt.mo icebt_uk.po
+cp iceBt.mo /usr/share/locale/ru/LC_MESSAGES

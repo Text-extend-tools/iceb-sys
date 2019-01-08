@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=Ukrainian bookkeeping suite of programs iceB
+Name[en_CA]=Ukrainian bookkeeping suite of programs iceB
+Name[en_GB]=Ukrainian bookkeeping suite of programs iceB
+Name[uk]=Бухгалтерский облік iceB
+Name[ru]=Бухгалтерский учёт iceB
+GenericName=Ukrainian bookkeeping suite of programs iceB
+GenericName[ru]=Комплекс бухгалтерских программ iceB
+GenericName[uk]=Комплекс бухгалтерських програм iceB
+Comment=Ukrainian bookkeeping suite of programs iceB
+Comment[uk]=Комплекс бухгалтерських програм iceB (терминальный интерфейс)
+Comment[ru]=Комплекс бухгалтерских программ iceB (терминальный интерфейс)
+Exec=xterm -fa mono -fs 15 -e startxbu
+Terminal=false
+Type=Application
+Icon=startxbu.png
+Categories=Office;
+StartupNotify=true

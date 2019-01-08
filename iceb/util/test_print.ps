@@ -1,0 +1,463 @@
+%!PS-Adobe-3.0
+%$Id: test_print.ps,v 5.1 2006/03/06 13:55:22 sasa Exp $
+%%BoundingBox: 0 0 595.275 841.897 % ширина и высота в пунктах 72*210/25.4  72*297/25.4
+%%Creator: epson-ps
+%%Title: iceB
+%%Pages: (attend)
+  %DocumentFonts: Courier Courier-Bold
+  %Orientation: Portrait
+  %DocumentPaperSizes: A4
+%%EndComments
+
+%%BeginProlog
+  /EXC {exch definefont pop} bind def
+  /milim {25.4 div 72 mul} def % Процедура перевода миллиметров в пункты
+  /OTSTY 15.5 milim def % Отступ от верхнего края листа до первой строки
+  /OTSTXMIN 6.44 milim def  % Граница начала зоны печати с левой стороны листа
+
+  /mstrr 25.4 6 div milim def    % Межстрочное растояние 1/6 дюйма
+
+  /perstx OTSTXMIN def              % позиция первой строки по Х
+  /persty 841.897 OTSTY sub def      % позиция первой строки по Y высота листа в пунктах 72*297/25.4
+
+  /tekpx perstx def              % начало текущей строки по Х
+  /tekpy persty def              % Начало текущей строки по Y
+
+  /hs10z 25.4 10 div milim def   % Ширина символа 10 знаков на дюйм
+%  /hs10zu 25.4 17 div milim def  % Ширина символа 10 знаков на дюйм в ужатом режиме (17 ЗНАКОВ)
+%  /hs12z 25.4 12 div milim def   % Ширина символа 12 знаков на дюйм
+%  /hs12zu 25.4 20 div milim def  % Ширина символа 12 знаков на дюйм в ужатом режиме (20 ЗНАКОВ)
+  /tekhs hs10z def              % Текущая ширина символа
+  /tln 1 def                    % Толщина линии нормальная
+  /tln2 2 def                   % Толщина линии двойная
+  /tektl tln def                % Толщина линии текущая
+
+  /metkaunderline 0 def % метка подчеркивания символа 0 - без подчеркивания 1- с подчеркиванием
+
+  /SV  % вычисление коэффициента масштабирования ширины символа
+   {
+    dup                % Копируем в стек строку
+    show               % выводим строку на печать
+%    stringwidth        % Вычисляем координаты после вывода символа
+%    pop                % Убираем из стека координату по Y
+%    /tekstr exch def    % Запоминаем координату по Х после вывода строки
+    length              % Вычисляем размер строки  
+    /dlinastr exch      % меняем местами вычисленную длинну стрки и переменную
+    tekhs mul def
+    /tekstr tekpx dlinastr add def    % Запоминаем координату по Х после вывода строки
+
+    metkaunderline 1 eq
+     {
+      newpath            % начало графического пути
+      tekpx tekpy moveto % становимся в точу начала вывода строки
+      tekstr tekpy lineto    % проводим линию на ширину текущей строки
+      closepath          % замыкание графического пути
+      0.5 setlinewidth   % установка толщины линии
+      stroke             % построение линии вдоль пути
+     } if
+    /tekpx tekstr def  % Переместить текущюю позицию символа по X
+    tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def
+
+ /MV  % передвижение в начало следующей строки
+  {
+   tekpy mstrr sub
+   /tekpy exch def
+   /tekpx perstx def
+   tekpx tekpy moveto
+  } def
+
+ /otstup
+  {
+   tekhs mul % Умножить заданный отступ на текущюю ширину символа
+   /ots exch def % Присвоить вычисленное значение
+   ots OTSTXMIN lt  % Если ots меньше минимально учитываемого
+    {
+     /ots OTSTXMIN def     % не отрабатывать
+    }
+   if
+   /perstx ots def % записать в константу начального отступа
+   /tekpx ots def  % установить текущий x
+   tekpx tekpy moveto % Переместить точку вывода
+  } def
+
+ /liniq % замена псевдографики - горизонтальная линия
+  {
+   newpath            % начало графического пути
+   /liny tekpy 4 add def
+   tekpx liny moveto % становимся в точку начала вывода символа
+   tekhs 0 rlineto    % проводим линию на ширину текущего символа
+   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def 
+
+ /vliniq %Вертикальная линия
+  {
+   newpath            % начало графического пути
+   /linx tekpx tekhs 2 div add def
+   /liny tekpy 2 sub def
+   linx liny moveto % становимся в точку начала вывода символа
+   0 14  rlineto    % проводим линию вверх
+   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def
+
+ /krest   % +
+  {
+   newpath            % начало графического пути
+   /linx tekpx tekhs 2 div add def
+   /liny tekpy 2 sub def
+   linx liny moveto % становимся в точку начала вывода символа
+   0 14  rlineto    % проводим линию вверх
+   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   /liny tekpy 4 add def
+   tekpx liny moveto % становимся в точку начала вывода символа
+   tekhs 0 rlineto    % проводим линию на ширину текущего символа
+   closepath          % замыкание графического пути
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+  } def
+
+ /vlugol % Верхний левый уголок
+  {
+   newpath            % начало графического пути
+   /linx tekpx tekhs 2 div add def
+   /liny tekpy 2 sub def
+   linx liny moveto % становимся в точку начала вывода символа
+   0 6  rlineto    % проводим линию вверх
+   tekhs 2 div 0  rlineto    % проводим линию вправо
+%   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def
+
+ /vpugol % Верхний правый уголок
+  {
+   newpath            % начало графического пути
+   /linx tekpx def
+   /liny tekpy 4 add def
+   linx liny moveto % становимся в точку начала вывода символа
+   tekhs 2 div 0  rlineto    % проводим линию вправо
+   0 -6  rlineto    % проводим линию вниз
+%   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def
+
+ /nlugol % Нижний левый уголок
+  {
+   newpath            % начало графического пути
+   /linx tekpx tekhs 2 div add def
+   /liny tekpy 11 add def
+   linx liny moveto % становимся в точку начала вывода символа
+   0 -7 rlineto    % проводим линию ввниз
+   tekhs 2 div 0 rlineto    % проводим линию вправо
+%   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def
+
+ /npugol % Нижний правы уголок
+  {
+   newpath            % начало графического пути
+   /linx tekpx def
+   /liny tekpy 4 add def
+   linx liny moveto % становимся в точку начала вывода символа
+   tekhs 2 div 0 rlineto    % проводим линию вправо
+   0 7 rlineto    % проводим линию вверх
+%   closepath          % замыкание графического пути
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+
+  } def
+
+ /tvverh   % Т вверх
+  {
+   newpath            % начало графического пути
+   /liny tekpy 4 add def
+   tekpx liny moveto % становимся в точку начала вывода символа
+   tekhs 0 rlineto    % проводим линию на ширину текущего символа
+
+   tekpx tekhs 2 div add liny moveto % возвращаемся на половину ширины символа
+   0 7  rlineto    % проводим линию вверх
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+  } def
+
+ /tvniz   % Т вниз
+  {
+   newpath            % начало графического пути
+   /liny tekpy 4 add def
+   tekpx liny moveto % становимся в точку начала вывода символа
+   tekhs 0 rlineto    % проводим линию на ширину текущего символа
+
+   tekpx tekhs 2 div add liny moveto % возвращаемся на половину ширины символа
+   0 -7  rlineto    % проводим линию вниз
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+  } def
+
+
+ /tvpravo   % Т вправо
+  {
+   newpath            % начало графического пути
+   /linx tekpx tekhs 2 div add def
+   /liny tekpy -3 add def
+   linx liny moveto % становимся в точку начала вывода символа
+   0 14 rlineto    % проводим линию вверх
+   linx tekpy 4 add  moveto % становимся в точку горизонтального отрезка
+   tekhs 2 div 0 rlineto    % проводим линию на ширину текущего символа
+
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+  } def
+
+ /tvlevo   % Т влево
+  {
+   newpath            % начало графического пути
+   /linx tekpx tekhs 2 div add def
+   /liny tekpy -3 add def
+   linx liny moveto % становимся в точку начала вывода символа
+   0 14 rlineto    % проводим линию вверх
+   linx tekpy 4 add  moveto % становимся в точку горизонтального отрезка
+   tekhs 2 div -1 mul 0 rlineto    % проводим линию на ширину текущего символа
+
+   tektl setlinewidth   % установка толщины линии
+   stroke             % построение линии вдоль пути
+
+   /tekpx tekpx tekhs add def  % Переместить текущюю позицию символа по X
+   tekpx tekpy moveto % стать в позицию вывода нового символа
+  } def
+
+
+%%EndProlog
+
+%%BeginSetup
+% character encoding(s)
+/koi8uEncoding [
+/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+/space/exclam/quotedbl/numbersign/dollar/percent/ampersand/quotesingle
+/parenleft/parenright/asterisk/plus/comma/hyphen/period/slash
+/zero/one/two/three/four/five/six/seven
+/eight/nine/colon/semicolon/less/equal/greater/question
+/at/A/B/C/D/E/F/G
+/H/I/J/K/L/M/N/O
+/P/Q/R/S/T/U/V/W
+/X/Y/Z/bracketleft/backslash/bracketright/asciicircum/underscore
+/grave/a/b/c/d/e/f/g
+/h/i/j/k/l/m/n/o
+/p/q/r/s/t/u/v/w
+/x/y/z/braceleft/bar/braceright/asciitilde/.notdef
+/space/space/space/space/space/space/space/space
+/space/space/space/upblock/dnblock/block/lfblock/rtblock
+/ltshade/shade/dkshade/integraltp/filledbox/periodcentered/radical/approxequal
+/afii61352/greaterequal/space/integralbt/degree/twosuperior/periodcentered/divide
+/SF430000/SF240000/SF510000/afii10071/afii10101/SF390000/afii10103/afii10104
+/SF250000/SF500000/SF490000/SF380000/SF280000/afii10098/SF260000/SF360000
+/SF370000/SF420000/SF190000/afii10023/afii10053/SF230000/afii10055/afii10056
+/SF410000/SF450000/SF460000/SF400000/SF540000/afii10050/SF440000/copyright
+/afii10096/afii10065/afii10066/afii10088/afii10069/afii10070/afii10086/afii10068
+/afii10087/afii10074/afii10075/afii10076/afii10077/afii10078/afii10079/afii10080
+/afii10081/afii10097/afii10082/afii10083/afii10084/afii10085/afii10072/afii10067
+/afii10094/afii10093/afii10073/afii10090/afii10095/afii10091/afii10089/afii10092
+/afii10048/afii10017/afii10018/afii10040/afii10021/afii10022/afii10038/afii10020
+/afii10039/afii10026/afii10027/afii10028/afii10029/afii10030/afii10031/afii10032
+/afii10033/afii10049/afii10034/afii10035/afii10036/afii10037/afii10024/afii10019
+/afii10046/afii10045/afii10025/afii10042/afii10047/afii10043/afii10041/afii10044
+] def
+% Reencode fonts
+/create-font { % процедура определения нового фонта
+	       % параметры: /old-font /new-font encoding-table
+   /new-encoding exch def	% таблица перекодировки
+   /new-font-name exch def	% имя нового фонта
+%   /old-font-name exch def	% имя старого фонта
+   findfont	% загрузить старый фонт в стек
+   dup length			% длина шрифта в стек
+   dict
+   begin			% занесение словаря в стек словарей
+     {
+        exch dup
+        /FID eq
+   	  { 			% имя != /FID - заносим в словарь
+            pop pop 
+          }
+          { 			% имя == /FID - пропускаем
+            exch
+            def
+          } ifelse
+     } forall			% цикл по всем элементам фонта
+     /FontName new-font-name def % запись нового имени фонта
+     /Encoding new-encoding def	% запись таблицы перекодировки
+     new-font-name 		% имя фонта -> стек
+     currentdict		% словать -> стек
+   end
+   definefont			% регистрация нового шрифта
+   pop			% очистить весь стек
+%   count
+%   /stack-count exch def
+} def
+
+/Courier /koi8-u koi8uEncoding create-font
+/Courier-Bold /koi8-u-bold koi8uEncoding create-font
+
+%%EndSetup
+%Устанавливаем шрифт по умолчанию
+/koi8-u findfont [12.000000 0 0 11.333000 0 0] makefont setfont
+%%Page: 1 1
+newpath
+/X 6.44 milim def
+/Y 12.50 milim def
+X Y moveto
+0 271.7 milim rlineto
+197.2 milim 0 rlineto
+0 -271.7 milim rlineto
+-197.2 milim 0 rlineto
+closepath
+1 setlinewidth
+stroke
+
+newpath
+/X 0 milim def
+/Y 0 milim def
+X Y moveto
+0 297 milim rlineto
+210 milim 0 rlineto
+0 -297 milim rlineto
+-210 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+newpath
+/X 1 milim def
+/Y 1 milim def
+X Y moveto
+0 295 milim rlineto
+208 milim 0 rlineto
+0 -295 milim rlineto
+-208 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+newpath
+/X 2 milim def
+/Y 2 milim def
+X Y moveto
+0 293 milim rlineto
+206 milim 0 rlineto
+0 -293 milim rlineto
+-206 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+newpath
+/X 3 milim def
+/Y 3 milim def
+X Y moveto
+0 291 milim rlineto
+204 milim 0 rlineto
+0 -291 milim rlineto
+-204 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+
+
+newpath
+/X 4 milim def
+/Y 4 milim def
+X Y moveto
+0 289 milim rlineto
+202 milim 0 rlineto
+0 -289 milim rlineto
+-202 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+newpath
+/X 5 milim def
+/Y 5 milim def
+X Y moveto
+0 287 milim rlineto
+200 milim 0 rlineto
+0 -287 milim rlineto
+-200 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+
+newpath
+/X 6 milim def
+/Y 6 milim def
+X Y moveto
+0 285 milim rlineto
+198 milim 0 rlineto
+0 -285 milim rlineto
+-198 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+newpath
+/X 7 milim def
+/Y 7 milim def
+X Y moveto
+0 283 milim rlineto
+196 milim 0 rlineto
+0 -283 milim rlineto
+-196 milim 0 rlineto
+closepath
+0.5 setlinewidth
+stroke
+
+showpage
+%%Trailer
+%%Pages: 1
+%%EOF
+

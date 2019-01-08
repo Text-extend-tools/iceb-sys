@@ -1,0 +1,80 @@
+#!/bin/sh
+DIALOG=whiptail
+tf=`mktemp /tmp/profile.$LOGNAME.XXXXXXXX`
+
+ingroup() {
+  for gr in `id --groups --name` ; do
+    if [ "$1" = "$gr" ]; then
+       return 0
+    fi
+  done
+  return 1
+}
+
+while true ; do 
+   menu=""
+   n=0
+   # Запуск не на X-терминале - формируем меню
+   if ingroup buhg ; then
+   # Пользователь входит в группу buhg
+     menu="$menu i \"Бухгалтерія iceB\""
+     n=`expr $n + 1`
+   fi
+   console="`tty | grep "/tty[0-9][0-9]*"`"
+   if [ -n "$console" ]; then 
+      if [ \! -S /tmp/.X11-unix/X0 ]; then
+      # Пользователь работает на консоли и Xы еще не запущены
+         menu="$menu w \"X-Window\""
+         n=`expr $n + 1`
+      fi
+   fi
+   menu="$menu m \"Midnight Commander\""
+   n=`expr $n + 1`
+   if ingroup mysql ; then
+   # Пользователь входит в группу mysql   
+     menu="$menu b \"Примусове збереження бази даних\""
+     n=`expr $n + 1`
+   fi
+   menu="$menu = ======================= e \"Закінчити роботу\""
+   n=`expr $n + 2`
+   ingroup adm
+   if [ $? -eq 0 -o -n "$console" ]; then
+   # Пользователь входит в группу adm или работает на консоли   
+     menu="$menu s \"Вимкнути комп'ютер\" r \"Перегрузити комп'ютер\""
+     n=`expr $n + 2`
+   fi
+
+   N=`expr $n + 8`
+   if eval $DIALOG --title \"Меню користувача\" \
+		--menu \"Що будемо робити ?\" $N 40 $n \
+		$menu 2> $tf ; then
+	opt=`cat $tf`
+	rm -f $tf
+	case $opt in
+	i) startxbu
+	   ;;
+	b) clear
+	   sudo /usr/local/bin/my_forcebk
+	   ;;
+	m) clear
+	   mc
+	   ;;
+	w) startx
+	   ;;
+	e) break
+	   ;;
+	s) clear
+	   sudo /sbin/shutdown -h now
+	   break
+	   ;;
+	r) clear
+	   sudo /sbin/shutdown -r now
+	   break
+	   ;;
+	=) ;;
+	esac
+   else
+     break
+   fi
+done
+rm -f $tf

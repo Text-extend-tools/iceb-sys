@@ -1,0 +1,4 @@
+echo "распаковываем архив"
+tar xvfj iceB_baza.bz2.tar
+echo "Загружаем базу"
+mysql -u root -pQwerty --default-character-set=koi8u dkf < iceB_baza

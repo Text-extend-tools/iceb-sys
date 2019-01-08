@@ -1,0 +1,96 @@
+#!/bin/sh
+#
+# bankcp computer_name filename remote_filename [share] [password]
+#
+# if computer_name begin from / - then send to local directory
+#
+
+share=klient
+passw=bankir
+#------------------------
+tf=/tmp/netcp.$$
+
+usage() {
+ echo -e "Usage:\n\n    bankcp target  file remote_file [share] [password]\n"
+}
+#
+#  Удаляет временные файлы без диагностики. Вызывается по trap'у
+#
+cleanup_tempf() {
+  rm -f $tf
+}
+
+fatal() {
+ echo "$1"
+ cleanup_tempf
+ exit 1
+}
+
+is_dbf() {
+  local basename suffix
+  basename=`basename "$1" | tr [A-Z] [a-z]`
+  suffix=`echo $basename | awk '{print $NF}' FS=.`
+  if [ "$suffix" = "dbf" ]; then
+     return 0
+  else 
+     return 1
+  fi
+}
+
+#main()
+trap "cleanup_tempf ; exit 1" 1 2 3 9 15
+
+if [ $# -lt 3 ]; then
+   usage
+   exit 1
+fi
+node=$1
+filen=$2
+remote=$3
+if [ $# -gt 3 ]; then
+   share=$4
+fi
+if [ $# -gt 4 ]; then
+   passw=$5
+fi
+if is_dbf "$filen" || is_dbf "$remote" ; then
+   cat "$filen" > $tf
+else
+   cat "$filen" > $tf
+#   cat $filen | tcod -kw > $tf
+#   cat $filen | tcod -kw | todos > $tf
+fi
+
+if [ -z "$remote" ]; then
+   remote="$filen"
+fi
+
+if [ "`echo "$node" | cut -b 1`" = "/" ]; then
+# move to local directory
+   mv $tf $node/$remote
+   if [ $? -ne 0 ]; then
+      fatal "Не могу скопировать файл $filen в $node"
+   fi
+else
+   if [ \! -r $filen ]; then
+      fatal "Не могу прочитать файл $filen"
+   fi
+
+   x=`smbclient -N -L $node | grep -i $share`
+   if [ -z "$x" ]; then
+      fatal "На компьютере $node нет сетевого диска $share"
+   fi
+
+   if [ -z "$passw" ]; then
+      smbclient //$node/$share -N -c "put $tf $remote"
+      status=$?
+   else
+      smbclient //$node/$share $passw -c "put $tf $remote"
+      status=$?
+   fi
+   if [ $status -ne 0 ]; then
+      fatal "Не могу переслать файл $filen на //$node/$share"
+   fi
+fi
+cleanup_tempf
+exit 0

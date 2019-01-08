@@ -1,0 +1,56 @@
+# !/bin/bash
+# Local printing on terminal (main codeset to alt. ukr. printer)
+
+print_start() {
+  echo -en $pon
+}
+
+print_stop() {
+  echo -en "$poff"
+  sleep 1
+  echo -en "$poff"
+  sleep 1
+}
+
+trap "print_stop ; exit 1" 1 2 3 9 15
+
+pon=`tput mc5`
+poff=`tput mc4`
+
+# main()
+copies=1
+if [ $# -gt 1 ]; then
+   CMD=`getopt -o r#: -- "$@"`
+   if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+   eval set -- "$CMD"
+   while true ; do
+      case "$1" in
+      "-r") remove_after_print="yes"
+          shift 
+          ;;
+      "-#") copies=$2
+          shift 2
+          ;;
+      --) shift ; break 
+          ;;
+       *) echo "$0: Unknown key: $1"
+	  exit 1
+          ;;
+      esac
+   done
+fi
+print_start
+while [ $copies -gt 0 ]; do
+   if [ "$TERM" = "kron-kg" ]; then
+      cat $* | tcod -kd | tcod -mk
+   else
+      cat $* | tcod -ka | pntukr
+   fi
+   copies=`expr $copies - 1`
+done
+print_stop
+if [ $# -gt 0 ]; then
+   if [ "$remove_after_print" = "yes" ]; then
+      rm -f $*
+   fi
+fi

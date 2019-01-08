@@ -1,0 +1,67 @@
+#!/bin/sh
+# Копирование файла с удаленного Windows на Linux
+# cbankcp computer_name filename remote_filename [share] [password]
+#
+
+# Значения по умолчанию
+share=klient
+passw=bankir
+#------------------------
+tf=/tmp/netcp.$$
+
+usage() {
+ echo -e "Usage:\n\n    cbankcp target  file remote_file [share] [password]\n"
+}
+#
+#  Удаляет временные файлы без диагностики. Вызывается по trap'у
+#
+cleanup_tempf() {
+  rm -f $tf
+}
+
+fatal() {
+ echo "$1"
+ cleanup_tempf
+ sleep 1
+ exit 1
+}
+
+#main()
+trap "cleanup_tempf ; exit 1" 1 2 3 9 15
+
+if [ $# -lt 3 ]; then
+   usage
+   exit 1
+fi
+node=$1
+filen=$2
+remote=$3
+if [ $# -gt 3 ]; then
+   share=$4
+fi
+if [ $# -gt 4 ]; then
+   passw=$5
+fi
+
+   x=`smbclient -N -L $node | grep -i $share`
+   if [ -z "$x" ]; then
+      fatal "На компьютере $node нет сетевого диска $share"
+   fi
+
+   if [ -z "$passw" ]; then
+      smbclient //$node/$share -N -c "get $remote $tf"
+      status=$?
+   else
+      smbclient //$node/$share $passw -c "get $remote $tf"
+      status=$?
+   fi
+   if [ $status -ne 0 ]; then
+      fatal "Не могу получить файл $remote c //$node/$share"
+   fi
+   fromdos < $tf | tcod -wk > $filen
+   if [ $? -ne 0 ]; then
+      fatal "Не могу записать файл $filen"
+   fi
+   
+
+exit 0

@@ -1,0 +1,4 @@
+echo "распаковываем архив"
+bunzip2 iceB_baza.bz2
+echo "Загружаем базу"
+mysql -u root -p < iceB_baza

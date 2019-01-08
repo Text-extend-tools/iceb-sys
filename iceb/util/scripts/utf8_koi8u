@@ -1,0 +1,24 @@
+files=$*
+tf=`mktemp /tmp/tc.XXXXXXXX`
+
+
+ for outf in $files; do
+   echo "Translating: $outf"
+   if [ ! -f $outf ]; then
+      error "File isn't regular. Can't translate:" $outf
+   elif [ ! -r $outf ]; then
+      error "File isn't readable. Can't translate:" $outf
+   elif [ ! -w $outf ]; then
+      error "File isn't writable. Can't translate:" $outf
+   else
+      rm -f $tf
+      iconv $outf -f utf8 -t koi8u -o $tf
+      if [ $? -ne 0 ]
+      then
+        error "ERROR during translation" $outf
+      else
+        cat $tf > $outf || error "Can't rewrite file" $outf
+        rm -f $tf
+      fi
+   fi
+ done     

@@ -1,0 +1,2 @@
+chmod o+r iceB.pdf
+cp iceB.pdf /home/share
