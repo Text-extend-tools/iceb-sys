@@ -1,0 +1,7 @@
+#22.03.2017
+rm ./libbuh_g/iceb_nn7*.cpp
+
+#tar xvfM /dev/fd0
+#bzip -d iceBw.tar.bz2
+#tar xvf iceBw.tar
+tar xvfj iceBw.tar.bz2
